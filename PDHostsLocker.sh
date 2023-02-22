@@ -3,8 +3,8 @@ echo 本程序由Ligure Studio开发，基于MIT开源，请在提示时输入�
 echo 我们的官网:ligure.cn
 echo ---------------------------------------------------
 sudo chmod 777 /etc
-echo [1].修改、备份并锁定hosts
-echo [2].恢复到备份的hosts并解除锁定
+echo [1].修改并锁定hosts
+echo [2].恢复hosts并解除锁定
 echo [n].退出
 read input
 if [ "$input" == "1" ]
@@ -13,8 +13,6 @@ then
 	sudo chmod 666 /etc/hosts
 	sudo chflags nouchg /etc/hosts
 	sudo chflags noschg /etc/hosts
-	mkdir ~/PDHostsLocker_Backup
-	cp /etc/hosts ~/PDHostsLocker_Backup
 	sudo echo '#PD Hosts Locker Start' >> /etc/hosts
 	sudo echo >> /etc/hosts
 	sudo echo "
@@ -53,7 +51,6 @@ then
 	sudo chflags schg /etc/hosts
 	sudo chmod 755 /etc
 	sudo chmod 444 /etc/hosts
-	sudo chflags hidden ~/PDHostsLocker_Backup
 	echo 操作已完成，请在弹出的窗口中检查
 	open /etc/hosts
 elif [ "$input" == "2" ]
@@ -62,9 +59,7 @@ then
 	sudo chflags noschg /etc/hosts
 	sudo chmod 777 /etc
 	sudo chmod 666 /etc/hosts
-	sudo rm -rf /etc/hosts
-	sudo cp ~/PDHostsLocker_Backup/hosts /etc
-	sudo rm -rf ~/PDHostsLocker_Backup
+    sudo sed -i '' "parallels" /etc/hosts
 	echo 操作已完成，请在弹出的窗口中检查
 	open /etc/hosts
 	sudo chmod 755 /etc
